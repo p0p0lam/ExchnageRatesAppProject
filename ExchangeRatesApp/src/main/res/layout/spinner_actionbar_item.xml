@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+              android:paddingLeft="@dimen/control_padding_material"
+              android:paddingRight="@dimen/control_padding_material"
+    tools:background="@color/primary">
+<TextView
+    android:id="@android:id/text1"
+    android:singleLine="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:ellipsize="marquee"
+    android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
+    android:textSize="16sp"
+    android:textAlignment="inherit"
+    tools:text="USD"/>
+    <TextView
+        android:id="@android:id/text2"
+        android:singleLine="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+        android:textSize="12sp"
+        tools:text="Dollar"/>
+    </LinearLayout>

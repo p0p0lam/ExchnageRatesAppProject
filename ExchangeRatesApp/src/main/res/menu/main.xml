@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_currency"
+        app:showAsAction="always"
+          android:title="@string/menu_currency"
+        />
+    <item android:id="@+id/menu_action_sort"
+        android:title="@string/action_sort"
+        android:icon="@drawable/ic_action_sort"
+        app:showAsAction="always"
+        >
+        <menu>
+            <item android:id="@+id/menu_action_sort_rate"
+                  android:icon="@drawable/ic_chart_line"
+                android:title="@string/menu_rate"
+                />
+            <item android:id="@+id/menu_action_sort_distance"
+                  android:icon="@drawable/ic_distance_vector"
+                android:title="@string/menu_distance"
+                />
+        </menu>
+        </item>
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_settings"
+        app:showAsAction="never"
+        />
+
+</menu>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="curr_codes">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>RUB</item>
+    </string-array>
+    <string-array name="curr_names">
+        <item>долар США</item>
+        <item>ЄВРО</item>
+        <item>російський рубль</item>
+    </string-array>
+
+</resources>

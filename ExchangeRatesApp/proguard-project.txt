@@ -1,0 +1,79 @@
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/simplification/variable
+
+# Droidparts
+-renamesourcefileattribute SourceFile
+-keepattributes Signature, *Annotation*, SourceFile, LineNumberTable
+
+# ActionBarSherlock
+-keep class android.support.v4.app.** { *; }
+-keep interface android.support.v4.app.** { *; }
+#-keep class com.actionbarsherlock.** { *; }
+#-keep interface com.actionbarsherlock.** { *; }
+-dontwarn com.actionbarsherlock.**
+
+# DroidParts
+-keep class * extends org.droidparts.AbstractDependencyProvider { *; }
+-keep class * extends org.droidparts.model.Entity
+-keep @interface org.droidparts.annotation.** { *; }
+-keepclassmembers class * { @org.droidparts.annotation.** *; }
+-dontwarn org.droidparts.**
+
+#Parse
+-dontwarn com.parse.**
+-keep class com.parse.** { *; }
+
+#Maps
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# As described in tools/proguard/examples/android.pro - ignore all warnings.
+-dontwarn android.support.v4.**
+
+# The maps library uses custom Parcelables.  Use this rule (which is slightly
+# broader than the standard recommended one) to avoid obfuscating them.
+-keepclassmembers class * implements android.os.Parcelable {
+    static *** CREATOR;
+}
+
+# The maps library uses serialization so keep this.
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+# Additional ones needed for Maps API library.
+-keep public class com.google.googlenav.capabilities.CapabilitiesController*
+
+# Additional config needed for Guava which is used by the demo.
+-keep public interface com.google.common.base.FinalizableReference {
+    void finalizeReferent();
+}
+# Missing annotations are harmless.
+-dontwarn sun.misc.Unsafe
+-dontwarn javax.annotation.**
+# Ignore invalid constant ref.  See
+# https://groups.google.com/d/topic/guava-discuss/YCZzeCiIVoI/discussion
+-dontwarn com.google.common.collect.MinMaxPriorityQueue

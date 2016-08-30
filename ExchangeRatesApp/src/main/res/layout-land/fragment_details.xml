@@ -1,0 +1,142 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:maps="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              tools:context="com.popolam.apps.exchangeratesapp.ui.DetailsActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        >
+        <LinearLayout
+            android:id="@+id/org_data_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rate_item_background"
+            >
+
+        <TextView
+            android:id="@+id/rate_item_org_title"
+            style="@style/RatesTextView.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:drawableLeft="@drawable/ic_bank_large"
+            android:drawablePadding="4dp"
+            android:maxLines="2"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:singleLine="false"
+            tools:text="Test org dgoo for test кеш лы"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/rate_item_distance"
+                style="@style/RatesTextView.Sup"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_point"
+                android:drawablePadding="0dp"
+                tools:text="1.86km"/>
+
+            <TextView
+                android:id="@+id/rate_item_org_address"
+                style="@style/RatesTextView.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/rate_item_distance"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_directions"
+                android:drawablePadding="4dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:maxLines="3"
+                android:background="?attr/selectableItemBackground"
+                tools:text="sssddsda"
+
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/rate_item_org_tel"
+                style="@style/RatesTextView.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_phone_call"
+                android:drawablePadding="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                tools:text="0444443545"
+                />
+
+            <TextView
+                android:id="@+id/rate_item_org_www"
+                style="@style/RatesTextView.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:drawableLeft="@drawable/ic_web_link"
+                android:background="?attr/selectableItemBackground"
+                android:drawablePadding="4dp"
+                android:text="@string/org_web_link_text"
+
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/org_rates_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <ProgressBar android:id="@+id/org_rates_progress"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center"
+                         style="@style/Widget.AppCompat.ProgressBar"/>
+        </FrameLayout>
+
+        </LinearLayout>
+
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        maps:cameraZoom="15"
+        maps:uiZoomControls="false"
+        />
+</LinearLayout>

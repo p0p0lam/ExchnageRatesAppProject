@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ExRate</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="location_setting">Місцезнаходження</string>
+    <string name="location_auto_setting">Автоматично</string>
+    <string name="common_title_setting">Загальні</string>
+    <string name="location_manual_setting">Населений пункт</string>
+    <string name="location_manual_title_setting">Виберіть нас. пункт</string>
+    <string name="location_radius_setting">Радіус пошуку</string>
+    <string name="element_count_title_setting">Виберіть кількість елементів на сторінці</string>
+    <string name="element_count_setting">Кількість елементів на сторінці</string>
+    <string name="tab_buy_title">Купити</string>
+    <string name="tab_sale_title">Продати</string>
+    <string name="action_sort">Сортування</string>
+    <string name="menu_rate">Курс</string>
+    <string name="menu_distance">Відстань</string>
+    <string name="rates_empty">Нема даних</string>
+    <string name="error_load_rate">Помилка при отриманні курсів. Спробуйте пізніше.</string>
+    <string name="error_network_not_available">"Відсутнє інтернет з'єднання"</string>
+    <string name="rate_distance_km">%s км</string>
+    <string name="rate_distance_m">%s м</string>
+    <string name="loading">Отримання даних</string>
+    <string name="button_retry">Повторити</string>
+    <string name="error_title">Помилка</string>
+    <string name="error_autolocation_off">Автовизначення місцезнаходження відключено. \n Виберіть населений пункт в налаштуваннях.</string>
+    <string name="button_settings">Налаштування</string>
+    <string name="error_autolocation_unavailable">Автовизначення місцезнаходження відключено. \n Виберіть населений пункт в налаштуваннях.</string>
+    <string name="radius_measure"> км</string>
+    <string name="title_activity_details">Деталі</string>
+    <string name="org_web_link_text">Переглянути в браузері</string>
+    <string name="all_found_text">Знайдено:</string>
+    <string name="loading_more">Завантаження</string>
+    <string name="ask_title">Купівля</string>
+    <string name="bid_title">Продаж</string>
+    <string name="button_close">Закрити</string>
+    <string name="menu_currency">Валюта</string>
+    <string name="permission_camera_rationale">Необхідно дозвіл для отримання Вашого місцезнаходження.</string>
+    <string name="permissions_not_granted">Відсутній дозвіл для отримання місцезнаходження.</string>
+
+</resources>

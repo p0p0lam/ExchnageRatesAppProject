@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:background="@drawable/rate_item_background"
+    >
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:stretchColumns="1"
+        android:minHeight="?android:attr/listPreferredItemHeight">
+        <TableRow>
+            <TextView
+                android:id="@+id/rate_item_rate_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="111.582"
+                android:maxLines="2"
+                style="@style/RatesTextView.Main" />
+            <TextView android:id="@+id/rate_item_org_title"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      tools:text="Test org dgoo for  вуорвлы"
+                      android:layout_marginLeft="8dp"
+                      tools:drawableLeft="@drawable/ic_bank"
+                      android:singleLine="false"
+                      android:maxLines="2"
+                      android:layout_toRightOf="@id/rate_item_rate_main"
+                      style="@style/RatesTextView.Title"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/rate_item_rate_sup"
+                tools:text="11.68"
+                android:lines="1"
+                android:gravity="right"
+                style="@style/RatesTextView.Sup" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@id/rate_item_org_title"
+                >
+                <TextView android:id="@+id/rate_item_distance"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          tools:text="10.86km"
+                          android:lines="1"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableRight="@drawable/ic_point"
+                          android:drawablePadding="0dp"
+                          android:layout_marginLeft="4dp"
+                          android:gravity="right"
+
+                          style="@style/RatesTextView.Sup"/>
+                <TextView android:id="@+id/rate_item_org_address"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          tools:text="test addr"
+                          android:singleLine="false"
+                          android:maxLines="2"
+                          android:layout_centerVertical="true"
+                          android:layout_toLeftOf="@id/rate_item_distance"
+                          style="@style/RatesTextView.Medium"
+                    />
+
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
+    <FrameLayout android:id="@+id/click_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="?selectableItemBackground"/>
+</FrameLayout>
+

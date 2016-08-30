@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ExRate</string>
+    <string name="action_settings">Настройки</string>
+    <string name="location_setting">Местоположение</string>
+    <string name="location_auto_setting">Автоматически</string>
+    <string name="common_title_setting">Общие</string>
+    <string name="location_manual_setting">Населенный пункт</string>
+    <string name="location_manual_title_setting">Выберите нас. пункт</string>
+    <string name="location_radius_setting">Радиус поиска</string>
+    <string name="element_count_title_setting">Выберите кол-во элементов на странице</string>
+    <string name="element_count_setting">Кол-во элементов на странице</string>
+    <string name="tab_buy_title">Купить</string>
+    <string name="tab_sale_title">Продать</string>
+    <string name="action_sort">Сортировка</string>
+    <string name="menu_rate">Курс</string>
+    <string name="menu_distance">Расстояние</string>
+    <string name="rates_empty">Нет данных</string>
+    <string name="error_load_rate">Ошибка получения курсов. Повторите позже.</string>
+    <string name="error_network_not_available">Отсутствует соединение с интернет</string>
+    <string name="rate_distance_km">%s км</string>
+    <string name="rate_distance_m">%s м</string>
+    <string name="loading">Получение данных</string>
+    <string name="button_retry">Повторить</string>
+    <string name="error_title">Ошибка</string>
+    <string name="error_autolocation_off">Автоопределение положения отключено.\n Выберите населенный пункт в настройках.</string>
+    <string name="button_settings">Настройки</string>
+    <string name="error_autolocation_unavailable">Автоопределение положения не доступно. Выберите населенный пункт в настройках.</string>
+    <string name="radius_measure"> км</string>
+    <string name="title_activity_details">Детали</string>
+    <string name="org_web_link_text">Посмотреть в браузере</string>
+    <string name="all_found_text">Найдено:</string>
+    <string name="loading_more">Загрузка</string>
+    <string name="ask_title">Покупка</string>
+    <string name="bid_title">Продажа</string>
+    <string name="button_close">Закрыть</string>
+    <string name="menu_currency">Валюта</string>
+    <string name="permission_camera_rationale">Необходимо разрешение на определение Вашего местоположения.</string>
+    <string name="permissions_not_granted">Отсувствует разрешение на получение Вашего местоположения.</string>
+</resources>

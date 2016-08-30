@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    >
+    <android.support.v7.preference.PreferenceCategory android:title="@string/location_setting">
+        <android.support.v7.preference.CheckBoxPreference android:key="location"
+            android:title="@string/location_auto_setting"
+            android:defaultValue="true"
+            android:disableDependentsState="true"/>
+        <android.support.v7.preference.ListPreference android:key="manual_location"
+            android:title="@string/location_manual_setting"
+            android:dialogTitle="@string/location_manual_title_setting"
+            android:dependency="location"
+            />
+    </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory android:title="@string/common_title_setting">
+        <com.popolam.apps.exchangeratesapp.ui.widget.SeekBarPreference
+            android:key="radius"
+            android:defaultValue="5"
+            android:max="20"
+            android:title="@string/location_radius_setting"
+            custom:progressTextSuffix=" км"
+            custom:min="5"/>
+        <com.popolam.apps.exchangeratesapp.ui.widget.SeekBarPreference
+            android:key="list_count"
+            android:defaultValue="10"
+            android:dialogMessage="@string/element_count_title_setting"
+            android:max="30"
+            android:title="@string/element_count_setting"
+            custom:progressTextSuffix=""
+            custom:min="10"/>
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>
