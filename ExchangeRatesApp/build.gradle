@@ -29,15 +29,21 @@ android {
         versionName "1.0.7"
     }
 
-    if (project.hasProperty("releaseSigningPropertiesPath") && new File(project.property("releaseSigningPropertiesPath")).exists()) {
+    lintOptions{
+        abortOnError false
+    }
+
+    if (project.hasProperty("releaseSigningPropertiesPath")) {
+        println "Signing start"
+        File releasePropsFile = new File(project.property("releaseSigningPropertiesPath"))
         Properties releaseProps = new Properties()
-        releaseProps.load(new FileInputStream(file(project.property("releaseSigningPropertiesPath"))))
+        releaseProps.load(new FileInputStream(releasePropsFile))
         signingConfigs {
             signReleaseConfig {
-                storeFile file(releasePropsFile.getParent() + "/" + releaseProps['keystore'])
+                storeFile file(releaseProps['keystore'])
                 storePassword releaseProps['keystore.password']
-                keyAlias releaseProps['keyAlias']
-                keyPassword releaseProps['keyPassword']
+                keyAlias releaseProps['key.alias']
+                keyPassword releaseProps['key.password']
             }
         }
         buildTypes {
