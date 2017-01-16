@@ -39,7 +39,7 @@ public class DataFetcher {
     private final Observable<List<Currency>> mDictNetObservable;
     private final Subscriber<List<Currency>> mDictSubscriber;
 
-    private long UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(5);
+    private long UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(3);
     private long FASTEST_INTERVAL = 1000; /* 1 sec */
 
     public DataFetcher(OnDataLoadedListener listener) {
@@ -49,7 +49,7 @@ public class DataFetcher {
         LocationRequest request = LocationRequest.create() //standard GMS LocationRequest
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
-                .setExpirationDuration(TimeUnit.MINUTES.toMillis(5))
+                .setExpirationDuration(TimeUnit.MINUTES.toMillis(3))
                 .setFastestInterval(FASTEST_INTERVAL);
         mLocationObservable = mLocationProvider.getUpdatedLocation(request).map(new Func1<Location, LocationWrapper>() {
             @Override
@@ -115,6 +115,10 @@ public class DataFetcher {
                 listener.onLocationRetrieved(new LocationWrapper(Settings.INSTANCE.getCityName(), Settings.INSTANCE.getManualLocation()));
             }
             return;
+        }
+        OnDataLoadedListener listener = mOnDataLoadedListener.get();
+        if (listener!=null){
+            listener.onLocationStarted();
         }
         mCompositeSubscription.add(mLocationObservable
                 .subscribeOn(Schedulers.newThread())
