@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "500484783453",
+    "firebase_url": "https://exrate-1280.firebaseio.com",
+    "project_id": "exrate-1280",
+    "storage_bucket": "exrate-1280.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500484783453:android:b90cd4061eadab42",
+        "android_client_info": {
+          "package_name": "com.popolam.apps.exchangeratesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500484783453-mgn8pjatotackbe21poa9mdubdm6klmr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.popolam.apps.exchangeratesapp",
+            "certificate_hash": "fd871bc4283b9aa152e3af79a71e54c36243d60e"
+          }
+        },
+        {
+          "client_id": "500484783453-a5r38iamuil4d9qp3ibqemht30sb6tm2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP0OMzWbSjUN2sx_HxoCuH74SOiLtcuDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500484783453-a5r38iamuil4d9qp3ibqemht30sb6tm2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

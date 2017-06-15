@@ -17,8 +17,8 @@ import java.util.List;
  * Created by Sergey on 12.04.2016.
  */
 public class OrgRatesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int VT_HEADER = 1;
-    public static final int VT_ITEM = 2;
+    private static final int VT_HEADER = 1;
+    private static final int VT_ITEM = 2;
     private final List<OrgRatesResponse.Currency> mItems;
     public OrgRatesAdapter(List<OrgRatesResponse.Currency> items) {
         mItems = items;
@@ -26,7 +26,6 @@ public class OrgRatesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
         switch (viewType){
             case VT_HEADER:
                return new HeaderVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.header_org_rate, parent, false));
@@ -63,7 +62,7 @@ public class OrgRatesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mItems.size()+1; // includes header
     }
     static class HeaderVH extends RecyclerView.ViewHolder{
-        public HeaderVH(View itemView) {
+        HeaderVH(View itemView) {
             super(itemView);
         }
     }
@@ -72,7 +71,7 @@ public class OrgRatesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final TextView askRate;
         final TextView bidRate;
         final TextView currency;
-        public RateItemVH(View itemView) {
+        RateItemVH(View itemView) {
             super(itemView);
             askRate = (TextView) itemView.findViewById(R.id.rate_ask);
             bidRate = (TextView) itemView.findViewById(R.id.rate_bid);

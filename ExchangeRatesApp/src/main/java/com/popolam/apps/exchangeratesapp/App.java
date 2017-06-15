@@ -2,14 +2,12 @@ package com.popolam.apps.exchangeratesapp;
 
 import android.app.Application;
 
-import com.crashlytics.android.Crashlytics;
 import com.popolam.apps.exchangeratesapp.db.ExRateDatabaseHelper;
 
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by user on 15.10.13.
@@ -28,9 +26,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (!BuildConfig.DEBUG){
-            Fabric.with(this, new Crashlytics());
-        }
     }
 
     public ExRateDatabaseHelper getDatabaseHelper(){

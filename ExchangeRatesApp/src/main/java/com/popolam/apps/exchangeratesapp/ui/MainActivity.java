@@ -428,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
         mMap.setOnMarkerClickListener(mClusterManager);
-        mMap.setOnCameraChangeListener(mClusterManager);
+        mMap.setOnCameraIdleListener(mClusterManager);
         mRateRenderer = new RateRenderer(this, mMap, mClusterManager);
         mClusterManager.setRenderer(mRateRenderer);
         if (!mIsFromSavedState) {

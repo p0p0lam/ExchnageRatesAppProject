@@ -54,7 +54,7 @@ public class RateRenderer extends DefaultClusterRenderer<Rate> {
         mClusterIconGenerator = new IconGenerator(context);
         mClusterIconGenerator.setBackground(makeClusterBackground());
         mClusterIconGenerator.setContentView(makeSquareTextView(context));
-        mClusterIconGenerator.setTextAppearance(com.google.maps.android.R.style.ClusterIcon_TextAppearance);
+        mClusterIconGenerator.setTextAppearance(com.google.maps.android.R.style.amu_ClusterIcon_TextAppearance);
         mType = type;
         mRateItemView = new TextView(mContext);
         mRateItemView.setGravity(Gravity.CENTER_VERTICAL);
@@ -81,7 +81,7 @@ public class RateRenderer extends DefaultClusterRenderer<Rate> {
         SquareTextView squareTextView = new SquareTextView(context);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         squareTextView.setLayoutParams(layoutParams);
-        squareTextView.setId(com.google.maps.android.R.id.text);
+        squareTextView.setId(com.google.maps.android.R.id.amu_text);
         int twelveDpi = (int) (12 * mDensity);
         squareTextView.setPadding(twelveDpi, twelveDpi, twelveDpi, twelveDpi);
         return squareTextView;

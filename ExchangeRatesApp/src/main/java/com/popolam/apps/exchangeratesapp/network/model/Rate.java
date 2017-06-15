@@ -100,6 +100,15 @@ public class Rate implements ClusterItem, Parcelable {
         return 0;
     }
 
+    @Override
+    public String getTitle() {
+        return currencyCode;
+    }
+
+    @Override
+    public String getSnippet() {
+        return null;
+    }
 
     @Override
     public int describeContents() {
