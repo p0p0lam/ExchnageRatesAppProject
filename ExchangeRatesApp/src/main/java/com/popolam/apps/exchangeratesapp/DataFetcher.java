@@ -15,6 +15,7 @@ import com.popolam.apps.exchangeratesapp.util.Log;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
@@ -31,7 +32,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class DataFetcher {
     private static final String TAG = DataFetcher.class.getSimpleName();
-    WeakReference<OnDataLoadedListener> mOnDataLoadedListener;
+    private WeakReference<OnDataLoadedListener> mOnDataLoadedListener;
     private final ReactiveLocationProvider mLocationProvider;
     private CompositeSubscription mCompositeSubscription;
     private final Observable<LocationWrapper> mLocationObservable;
@@ -39,7 +40,7 @@ public class DataFetcher {
     private final Observable<List<Currency>> mDictNetObservable;
     private final Subscriber<List<Currency>> mDictSubscriber;
 
-    private long UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(3);
+    private long UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(1);
     private long FASTEST_INTERVAL = 1000; /* 1 sec */
 
     public DataFetcher(OnDataLoadedListener listener) {
@@ -49,7 +50,7 @@ public class DataFetcher {
         LocationRequest request = LocationRequest.create() //standard GMS LocationRequest
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
-                .setExpirationDuration(TimeUnit.MINUTES.toMillis(3))
+                .setExpirationDuration(TimeUnit.MINUTES.toMillis(5))
                 .setFastestInterval(FASTEST_INTERVAL);
         mLocationObservable = mLocationProvider.getUpdatedLocation(request).map(new Func1<Location, LocationWrapper>() {
             @Override
@@ -57,12 +58,11 @@ public class DataFetcher {
                 return new LocationWrapper(location);
             }
         });
-        mDictDbObservable = Observable.create(new Observable.OnSubscribe<List<Currency>>() {
+        mDictDbObservable = Observable.fromCallable(new Callable<List<Currency>>() {
             @Override
-            public void call(Subscriber<? super List<Currency>> subscriber) {
+            public List<Currency> call() throws Exception {
                 Log.d(TAG, "Got dicts from db");
-                    subscriber.onNext(App.getInstance().getDatabaseHelper().getCurrencies());
-                    subscriber.onCompleted();
+                return App.getInstance().getDatabaseHelper().getCurrencies();
             }
         });
         mDictNetObservable = new ApiNetworker(true).getDictionariesRx()

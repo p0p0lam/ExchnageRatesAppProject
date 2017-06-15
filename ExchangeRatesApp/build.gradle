@@ -22,7 +22,7 @@ android {
     }
 
     if (project.hasProperty("releaseSigningPropertiesPath")) {
-        println "Signing start"
+        println "Signing exists"
         File releasePropsFile = new File(project.property("releaseSigningPropertiesPath"))
         Properties releaseProps = new Properties()
         releaseProps.load(new FileInputStream(releasePropsFile))
@@ -54,8 +54,6 @@ android {
             //signingConfig signingConfigs.release
             versionNameSuffix "-DEBUG"
             applicationIdSuffix '.debug'
-            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
-            ext.enableCrashlytics = false
         }
 
     }
