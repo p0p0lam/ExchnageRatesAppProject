@@ -1,5 +1,6 @@
 package com.popolam.apps.exchangeratesapp.network;
 
+import com.popolam.apps.exchangeratesapp.App;
 import com.popolam.apps.exchangeratesapp.BuildConfig;
 import com.popolam.apps.exchangeratesapp.Settings;
 import com.popolam.apps.exchangeratesapp.network.model.DictResponse;
@@ -7,10 +8,12 @@ import com.popolam.apps.exchangeratesapp.network.model.OrgRatesResponse;
 import com.popolam.apps.exchangeratesapp.network.model.RatesByCityRequest;
 import com.popolam.apps.exchangeratesapp.network.model.RatesByLocationRequest;
 import com.popolam.apps.exchangeratesapp.network.model.RatesResponse;
+import com.popolam.apps.exchangeratesapp.util.FileUtil;
 import com.popolam.apps.exchangeratesapp.util.Log;
 
 import java.io.IOException;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
@@ -40,6 +43,7 @@ public class ApiNetworker {
         }
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)
+                .cache(new Cache(FileUtil.getCacheDir(App.getInstance()), 1024*1024*5))
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder();
