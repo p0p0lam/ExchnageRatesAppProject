@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements
     private CompositeSubscription mSubscriptions;
     boolean mIsFromSavedState=false;
     private DataFetcher mDataFetcher;
-
+    private BottomSheetBehavior mChartBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +205,12 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         };
+        View chartView = findViewById(R.id.chart_bottom_sheet);
+        mChartBehavior = BottomSheetBehavior.from(chartView);
+        mChartBehavior.setSkipCollapsed(true);
+        if (savedInstanceState==null){
+            mChartBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
     }
 
     @Override
@@ -673,6 +680,10 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.menu_currency:
                 Log.d(TAG, "Menu Currency selected");
                 return true;
+            case R.id.menu_action_chart:
+                Log.d(TAG, "Menu Chart selected");
+                showChart();
+                return true;
             case R.id.menu_action_sort_rate:
                 if (mSearchCriteria.sort != SortType.RATE) {
                     mSearchCriteria.sort = SortType.RATE;
@@ -693,6 +704,12 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showChart() {
+        Log.d(TAG, "showChart() called");
+        mDataFetcher.getCurrencyStats();
+        mChartBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     @Override

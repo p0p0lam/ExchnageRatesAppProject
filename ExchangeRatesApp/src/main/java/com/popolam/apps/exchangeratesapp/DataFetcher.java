@@ -40,7 +40,7 @@ public class DataFetcher {
     private final Observable<List<Currency>> mDictNetObservable;
     private final Subscriber<List<Currency>> mDictSubscriber;
 
-    private long UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(1);
+    private long UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(5);
     private long FASTEST_INTERVAL = 1000; /* 1 sec */
 
     public DataFetcher(OnDataLoadedListener listener) {
@@ -50,14 +50,19 @@ public class DataFetcher {
         LocationRequest request = LocationRequest.create() //standard GMS LocationRequest
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
-                .setExpirationDuration(TimeUnit.MINUTES.toMillis(5))
+                .setExpirationDuration(TimeUnit.MINUTES.toMillis(10))
                 .setFastestInterval(FASTEST_INTERVAL);
-        mLocationObservable = mLocationProvider.getUpdatedLocation(request).map(new Func1<Location, LocationWrapper>() {
-            @Override
-            public LocationWrapper call(Location location) {
-                return new LocationWrapper(location);
-            }
-        });
+        if (BuildConfig.DEBUG) {
+            mLocationObservable = mLocationProvider.getLastKnownLocation()
+                    .map(location -> new LocationWrapper(location));
+        } else {
+            mLocationObservable = mLocationProvider.getUpdatedLocation(request).map(new Func1<Location, LocationWrapper>() {
+                @Override
+                public LocationWrapper call(Location location) {
+                    return new LocationWrapper(location);
+                }
+            });
+        }
         mDictDbObservable = Observable.fromCallable(new Callable<List<Currency>>() {
             @Override
             public List<Currency> call() throws Exception {
@@ -106,7 +111,17 @@ public class DataFetcher {
         };
     }
 
-
+    public void getCurrencyStats(){
+        mCompositeSubscription.add(new ApiNetworker(true).getStats(Settings.INSTANCE.getSelectedCurrency())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stats -> {
+                    Log.d(TAG, "getCurrencyStats: success");
+                }, error ->{
+                    Log.e(TAG, "getCurrencyStats: error", error);
+                })
+        );
+    }
 
     public void getLocation(){
         if (!Settings.INSTANCE.isAutoLocation()){
@@ -121,29 +136,36 @@ public class DataFetcher {
             listener.onLocationStarted();
         }
         mCompositeSubscription.add(mLocationObservable
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<LocationWrapper>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "Location completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "Can't get location.", e);
-                    }
-
-                    @Override
-                    public void onNext(LocationWrapper locationWrapper) {
-                        Log.d(TAG, "Got location " + locationWrapper);
-                        OnDataLoadedListener listener = mOnDataLoadedListener.get();
-                        if (listener!=null){
-                            listener.onLocationRetrieved(locationWrapper);
-                        }
-                    }
-                }));
+                .subscribe(locationWrapper -> {
+                            Log.d(TAG, "Got location " + locationWrapper);
+                            OnDataLoadedListener listenerInner = mOnDataLoadedListener.get();
+                            if (listenerInner!=null){
+                                listenerInner.onLocationRetrieved(locationWrapper);
+                            }
+                },
+                        error ->{
+                            Log.e(TAG, "getLocation: error", error);
+                        }));
     }
+
+    /*new Subscriber<LocationWrapper>() {
+        @Override
+        public void onCompleted() {
+            Log.d(TAG, "Location completed");
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e(TAG, "Can't get location.", e);
+        }
+
+        @Override
+        public void onNext(LocationWrapper locationWrapper) {
+
+        }
+    })*/
 
     public void getDicts(){
         OnDataLoadedListener listener = mOnDataLoadedListener.get();

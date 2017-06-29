@@ -8,10 +8,12 @@ import com.popolam.apps.exchangeratesapp.network.model.OrgRatesResponse;
 import com.popolam.apps.exchangeratesapp.network.model.RatesByCityRequest;
 import com.popolam.apps.exchangeratesapp.network.model.RatesByLocationRequest;
 import com.popolam.apps.exchangeratesapp.network.model.RatesResponse;
+import com.popolam.apps.exchangeratesapp.network.model.Stats;
 import com.popolam.apps.exchangeratesapp.util.FileUtil;
 import com.popolam.apps.exchangeratesapp.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -21,6 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.Single;
 
 /**
  * Project: ExchnageRatesAppProject
@@ -131,5 +134,10 @@ public class ApiNetworker {
             return new OrgRatesResponse(e.getMessage());
         }
         return new OrgRatesResponse("Unknown error");
+    }
+
+    public Single<List<Stats>> getStats(String currencyCode){
+        return mService.getStatsRx(currencyCode)
+                .map(statsResponse -> statsResponse.stats);
     }
 }

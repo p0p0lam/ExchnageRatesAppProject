@@ -37,4 +37,5 @@
     <string name="menu_currency">Валюта</string>
     <string name="permission_camera_rationale">Необходимо разрешение на определение Вашего местоположения.</string>
     <string name="permissions_not_granted">Отсувствует разрешение на получение Вашего местоположения.</string>
+    <string name="action_chart">График</string>
 </resources>

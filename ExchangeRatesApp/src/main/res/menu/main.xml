@@ -4,6 +4,11 @@
         app:showAsAction="always"
           android:title="@string/menu_currency"
         />
+    <item android:id="@+id/menu_action_chart"
+          android:title="@string/action_chart"
+          android:icon="@drawable/ic_action_chart"
+          app:showAsAction="always"
+        />
     <item android:id="@+id/menu_action_sort"
         android:title="@string/action_sort"
         android:icon="@drawable/ic_action_sort"
