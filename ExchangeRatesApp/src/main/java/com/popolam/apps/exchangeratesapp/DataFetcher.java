@@ -3,16 +3,19 @@ package com.popolam.apps.exchangeratesapp;
 import android.content.Context;
 import android.location.Location;
 
+import com.db.chart.model.ChartSet;
+import com.db.chart.model.LineSet;
 import com.google.android.gms.location.LocationRequest;
 import com.popolam.apps.exchangeratesapp.db.ExRateDatabaseHelper;
 import com.popolam.apps.exchangeratesapp.model.Currency;
 import com.popolam.apps.exchangeratesapp.model.LocationWrapper;
 import com.popolam.apps.exchangeratesapp.network.ApiNetworker;
 import com.popolam.apps.exchangeratesapp.network.model.City;
-import com.popolam.apps.exchangeratesapp.network.model.DictResponse;
+import com.popolam.apps.exchangeratesapp.network.model.Stats;
 import com.popolam.apps.exchangeratesapp.util.Log;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -20,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Observable;
+import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -37,7 +41,7 @@ public class DataFetcher {
     private CompositeSubscription mCompositeSubscription;
     private final Observable<LocationWrapper> mLocationObservable;
     private final Observable<List<Currency>> mDictDbObservable;
-    private final Observable<List<Currency>> mDictNetObservable;
+    private final Single<List<Currency>> mDictNetObservable;
     private final Subscriber<List<Currency>> mDictSubscriber;
 
     private long UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(5);
@@ -71,24 +75,21 @@ public class DataFetcher {
             }
         });
         mDictNetObservable = new ApiNetworker(true).getDictionariesRx()
-                .map(new Func1<DictResponse, List<Currency>>() {
-                    @Override
-                    public List<Currency> call(DictResponse dicts) {
-                        Log.d(TAG, "Got dicts from network");
-                        ExRateDatabaseHelper dbHelper = App.getInstance().getDatabaseHelper();
-                        List<Currency> currencies = new ArrayList<>(dicts.getCurrencies().size());
-                        for (com.popolam.apps.exchangeratesapp.network.model.Currency curr : dicts.getCurrencies()) {
-                            currencies.add(new Currency(curr.getId(), curr.getName()));
-                        }
-                        dbHelper.saveCurrencies(currencies);
-                        List<com.popolam.apps.exchangeratesapp.model.City> cities = new ArrayList<>(dicts.getCities().size());
-                        for (City city : dicts.getCities()) {
-                            cities.add(new com.popolam.apps.exchangeratesapp.model.City(city.getId(), city.getName()));
-                        }
-                        dbHelper.saveCities(cities);
-                        Settings.INSTANCE.setLastDictCheck(System.currentTimeMillis());
-                        return currencies;
+                .map(dicts -> {
+                    Log.d(TAG, "Got dicts from network");
+                    ExRateDatabaseHelper dbHelper = App.getInstance().getDatabaseHelper();
+                    List<Currency> currencies = new ArrayList<>(dicts.getCurrencies().size());
+                    for (com.popolam.apps.exchangeratesapp.network.model.Currency curr : dicts.getCurrencies()) {
+                        currencies.add(new Currency(curr.getId(), curr.getName()));
                     }
+                    dbHelper.saveCurrencies(currencies);
+                    List<com.popolam.apps.exchangeratesapp.model.City> cities = new ArrayList<>(dicts.getCities().size());
+                    for (City city : dicts.getCities()) {
+                        cities.add(new com.popolam.apps.exchangeratesapp.model.City(city.getId(), city.getName()));
+                    }
+                    dbHelper.saveCities(cities);
+                    Settings.INSTANCE.setLastDictCheck(System.currentTimeMillis());
+                    return currencies;
                 });
         mDictSubscriber = new Subscriber<List<Currency>>() {
             @Override
@@ -115,8 +116,20 @@ public class DataFetcher {
         mCompositeSubscription.add(new ApiNetworker(true).getStats(Settings.INSTANCE.getSelectedCurrency())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(stats -> {
+                .subscribe(statsResponse -> {
                     Log.d(TAG, "getCurrencyStats: success");
+                    LineSet datasetAsk = new LineSet();
+                    LineSet datasetBid = new LineSet();
+                    SimpleDateFormat shortSdf = new SimpleDateFormat("MM-dd");
+                    for (Stats stat : statsResponse.stats) {
+                        datasetAsk.addPoint(shortSdf.format(stat.date), stat.ask);
+                        datasetBid.addPoint(shortSdf.format(stat.date), stat.bid);
+                    }
+
+                    OnDataLoadedListener listener = mOnDataLoadedListener.get();
+                    if (listener!=null){
+                        listener.displayStats(datasetAsk, datasetBid, statsResponse.minAsk, statsResponse.maxAsk, statsResponse.minBid, statsResponse.maxBid);
+                    }
                 }, error ->{
                     Log.e(TAG, "getCurrencyStats: error", error);
                 })
@@ -218,5 +231,7 @@ public class DataFetcher {
         void onLocationStarted();
 
         void onLocationRetrieved(LocationWrapper location);
+
+        void displayStats(ChartSet datasetAsk, ChartSet datasetBid, float minAsk, float maxAsk, float minBid, float maxBid);
     }
 }

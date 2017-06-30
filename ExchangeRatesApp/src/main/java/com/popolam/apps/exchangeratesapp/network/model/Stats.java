@@ -1,6 +1,10 @@
 package com.popolam.apps.exchangeratesapp.network.model;
 
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.popolam.apps.exchangeratesapp.network.adapter.DateTypeAdapter;
+
+import java.util.Date;
 
 /**
  * Project MOSST Code
@@ -9,11 +13,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Stats {
     @SerializedName("date")
-    public String date;
+    @JsonAdapter(DateTypeAdapter.class)
+    public Date date;
     @SerializedName("currencyCode")
     public String currencyCode;
     @SerializedName("ask")
-    public double ask;
+    public float ask;
     @SerializedName("bid")
-    public double bid;
+    public float bid;
 }

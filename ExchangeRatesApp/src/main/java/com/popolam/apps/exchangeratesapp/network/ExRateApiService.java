@@ -32,7 +32,7 @@ public interface ExRateApiService {
     Call<DictResponse> getDictionaries(@Query("language") String language);
 
     @GET(GET_DICTS)
-    Observable<DictResponse> getDictionariesRx(@Query("language") String language);
+    Single<DictResponse> getDictionariesRx(@Query("language") String language);
 
     @GET(GET_STATS)
     Single<StatsResponse> getStatsRx(@Query("currencyCode") String currencyCode);

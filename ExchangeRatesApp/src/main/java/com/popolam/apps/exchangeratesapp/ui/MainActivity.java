@@ -37,6 +37,9 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.db.chart.model.ChartSet;
+import com.db.chart.model.LineSet;
+import com.db.chart.view.LineChartView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdate;
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements
     boolean mIsFromSavedState=false;
     private DataFetcher mDataFetcher;
     private BottomSheetBehavior mChartBehavior;
+    private LineChartView mChartView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,8 +209,9 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         };
-        View chartView = findViewById(R.id.chart_bottom_sheet);
-        mChartBehavior = BottomSheetBehavior.from(chartView);
+        View chartBottomSheet = findViewById(R.id.chart_bottom_sheet);
+        mChartView = (LineChartView) chartBottomSheet.findViewById(R.id.linechart);
+        mChartBehavior = BottomSheetBehavior.from(chartBottomSheet);
         mChartBehavior.setSkipCollapsed(true);
         if (savedInstanceState==null){
             mChartBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -637,6 +642,9 @@ public class MainActivity extends AppCompatActivity implements
                     mSearchCriteria.currency = mCurrencyAdapter.getItem(position);
                     Settings.INSTANCE.setSelectedCurrency(mSearchCriteria.currency.code);
                     notifyFilterChangeListeners(false);
+                    if (mChartBehavior.getState() != BottomSheetBehavior.STATE_HIDDEN) {
+                        mDataFetcher.getCurrencyStats();
+                    }
                     Log.d(TAG, "Currency selected: " + mSearchCriteria.currency);
                 }
             }
@@ -708,8 +716,12 @@ public class MainActivity extends AppCompatActivity implements
 
     private void showChart() {
         Log.d(TAG, "showChart() called");
-        mDataFetcher.getCurrencyStats();
-        mChartBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        if (mChartBehavior.getState() !=BottomSheetBehavior.STATE_HIDDEN){
+            mChartBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        } else {
+            mDataFetcher.getCurrencyStats();
+            mChartBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
     }
 
     @Override
@@ -874,6 +886,20 @@ public class MainActivity extends AppCompatActivity implements
     public void onLocationRetrieved(LocationWrapper location) {
         mSearchCriteria.location = location;
         notifyFilterChangeListeners(false);
+    }
+
+    @Override
+    public void displayStats(ChartSet datasetAsk, ChartSet datasetBid, float minAsk, float maxAsk, float minBid, float maxBid) {
+        //Log.d(TAG, "displayStats() called with: datasetAsk = [" + datasetAsk + "], datasetBid = [" + datasetBid + "], minAsk = [" + minAsk + "], maxAsk = [" + maxAsk + "], minBid = [" + minBid + "], maxBid = [" + maxBid + "]");
+        ((LineSet)datasetAsk).setColor(ContextCompat.getColor(this, R.color.chart_line_ask));
+        ((LineSet)datasetBid).setColor(ContextCompat.getColor(this, R.color.chart_line_bid));
+        mChartView.getData().clear();
+        mChartView.reset();
+        mChartView.addData(datasetAsk);
+        mChartView.addData(datasetBid);
+
+        mChartView.setAxisBorderValues(minAsk-0.1f, maxBid+0.1f);
+        mChartView.show();
     }
 
     @Override

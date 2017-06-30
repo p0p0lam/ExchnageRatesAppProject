@@ -12,6 +12,16 @@ import java.util.List;
 public class StatsResponse extends BasicResponse {
     @SerializedName("stats")
     public List<Stats> stats;
+
+    @SerializedName("minAsk")
+    public float minAsk;
+    @SerializedName("maxAsk")
+    public float maxAsk;
+    @SerializedName("minBid")
+    public float minBid;
+    @SerializedName("maxBid")
+    public float maxBid;
+
     public StatsResponse(String error) {
         super(error);
     }

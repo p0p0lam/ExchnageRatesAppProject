@@ -9,6 +9,7 @@ import com.popolam.apps.exchangeratesapp.network.model.RatesByCityRequest;
 import com.popolam.apps.exchangeratesapp.network.model.RatesByLocationRequest;
 import com.popolam.apps.exchangeratesapp.network.model.RatesResponse;
 import com.popolam.apps.exchangeratesapp.network.model.Stats;
+import com.popolam.apps.exchangeratesapp.network.model.StatsResponse;
 import com.popolam.apps.exchangeratesapp.util.FileUtil;
 import com.popolam.apps.exchangeratesapp.util.Log;
 
@@ -73,7 +74,7 @@ public class ApiNetworker {
         return new DictResponse("Unknown error");
     }
 
-    public Observable<DictResponse> getDictionariesRx(){
+    public Single<DictResponse> getDictionariesRx(){
         Log.d(TAG, "Loading dict from server");
         return mService.getDictionariesRx(Settings.INSTANCE.getLastLocale());
     }
@@ -136,8 +137,8 @@ public class ApiNetworker {
         return new OrgRatesResponse("Unknown error");
     }
 
-    public Single<List<Stats>> getStats(String currencyCode){
+    public Single<StatsResponse> getStats(String currencyCode){
         return mService.getStatsRx(currencyCode)
-                .map(statsResponse -> statsResponse.stats);
+                ;
     }
 }

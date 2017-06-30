@@ -13,7 +13,8 @@ import java.util.TimeZone;
  * Created by Sergey on 26.02.2016.
  */
 public class DateUtil {
-    private static final DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    public static final DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    public static final DateFormat sdfShortISO = new SimpleDateFormat("yyyy-MM-dd");
     private static final TimeZone tzUTC = TimeZone.getTimeZone("UTC");
     public static Date parseIsoDate(String dateStr){
         if (!TextUtils.isEmpty(dateStr)) {

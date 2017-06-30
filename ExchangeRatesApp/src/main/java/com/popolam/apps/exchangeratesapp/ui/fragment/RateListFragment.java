@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -151,6 +152,7 @@ public class RateListFragment extends Fragment implements OnActivityInteractionL
             mAdapter.restoreState(savedInstanceState);
         }
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         mProgressView = view.findViewById(R.id.progress);
         mEmptyView = view.findViewById(R.id.empty_container);
         mEmptyText = (TextView) mEmptyView.findViewById(android.R.id.empty);
