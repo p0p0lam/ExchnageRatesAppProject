@@ -121,17 +121,28 @@ public class DataFetcher {
                     LineSet datasetAsk = new LineSet();
                     LineSet datasetBid = new LineSet();
                     SimpleDateFormat shortSdf = new SimpleDateFormat("MM-dd");
-                    for (Stats stat : statsResponse.stats) {
-                        datasetAsk.addPoint(shortSdf.format(stat.date), stat.ask);
-                        datasetBid.addPoint(shortSdf.format(stat.date), stat.bid);
-                    }
+                    if (statsResponse.stats!=null && statsResponse.stats.size()>0) {
+                        for (Stats stat : statsResponse.stats) {
+                            datasetAsk.addPoint(shortSdf.format(stat.date), stat.ask);
+                            datasetBid.addPoint(shortSdf.format(stat.date), stat.bid);
+                        }
 
-                    OnDataLoadedListener listener = mOnDataLoadedListener.get();
-                    if (listener!=null){
-                        listener.displayStats(datasetAsk, datasetBid, statsResponse.minAsk, statsResponse.maxAsk, statsResponse.minBid, statsResponse.maxBid);
+                        OnDataLoadedListener listener = mOnDataLoadedListener.get();
+                        if (listener != null) {
+                            listener.displayStats(datasetAsk, datasetBid, statsResponse.minAsk, statsResponse.maxAsk, statsResponse.minBid, statsResponse.maxBid);
+                        }
+                    } else {
+                        OnDataLoadedListener listener = mOnDataLoadedListener.get();
+                        if (listener != null) {
+                            listener.showStatsError();
+                        }
                     }
                 }, error ->{
                     Log.e(TAG, "getCurrencyStats: error", error);
+                    OnDataLoadedListener listener = mOnDataLoadedListener.get();
+                    if (listener != null) {
+                        listener.showStatsError();
+                    }
                 })
         );
     }
@@ -233,5 +244,6 @@ public class DataFetcher {
         void onLocationRetrieved(LocationWrapper location);
 
         void displayStats(ChartSet datasetAsk, ChartSet datasetBid, float minAsk, float maxAsk, float minBid, float maxBid);
+        void showStatsError();
     }
 }

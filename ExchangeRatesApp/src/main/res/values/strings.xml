@@ -39,5 +39,6 @@
     <string name="permission_camera_rationale">Необхідно дозвіл для отримання Вашого місцезнаходження.</string>
     <string name="permissions_not_granted">Відсутній дозвіл для отримання місцезнаходження.</string>
     <string name="action_chart">Графік</string>
+    <string name="error_stats">Помилка при отримканні статистики. Спробуйте пізніше</string>
 
 </resources>

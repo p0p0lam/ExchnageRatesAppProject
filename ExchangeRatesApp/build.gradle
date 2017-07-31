@@ -12,7 +12,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 11
-        versionName "1.0.9"
+        versionName "1.0.10"
     }
 
     compileOptions {
@@ -65,7 +65,7 @@ android {
 ext.supportLibraryVersion = '25.3.1'
 ext.retrofitVersion = '2.3.0'
 ext.okhttpVersion = '3.8.0'
-ext.playServicesVersion = '11.0.2'
+ext.playServicesVersion = '11.0.4'
     dependencies {
         compile 'com.google.code.gson:gson:2.8.1'
         compile "com.google.android.gms:play-services-maps:$playServicesVersion"

@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements
     private DataFetcher mDataFetcher;
     private BottomSheetBehavior mChartBehavior;
     private LineChartView mChartView;
+    private TextView mChartErrorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState==null){
             mChartBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
+        mChartErrorView = (TextView) chartBottomSheet.findViewById(R.id.chart_error);
     }
 
     @Override
@@ -716,6 +718,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void showChart() {
         Log.d(TAG, "showChart() called");
+        mChartErrorView.setText(null);
         if (mChartBehavior.getState() !=BottomSheetBehavior.STATE_HIDDEN){
             mChartBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         } else {
@@ -900,6 +903,15 @@ public class MainActivity extends AppCompatActivity implements
 
         mChartView.setAxisBorderValues(minAsk-0.1f, maxBid+0.1f);
         mChartView.show();
+        mChartErrorView.setText(null);
+    }
+
+    @Override
+    public void showStatsError() {
+        mChartView.getData().clear();
+        mChartView.reset();
+        mChartView.setVisibility(View.GONE);
+        mChartErrorView.setText(R.string.error_stats);
     }
 
     @Override
